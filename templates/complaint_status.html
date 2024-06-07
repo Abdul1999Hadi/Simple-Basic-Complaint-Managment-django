@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid mt-3">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">SL</th>
+          <th scope="col">Name</th>
+          <th scope="col">Location</th>
+          <th scope="col">Complaint</th>
+          <th scope="col">Status</th>
+          <th scope="col">Delete</th>
+          <th scope="col">Edit</th>
+        </tr>
+      </thead>
+      {% for data in user_data %}
+      <tbody>
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{data.name}}</td>
+          <td>{{data.location}}</td>
+          <td><!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#m{{data.id}}">
+              Description
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="m{{data.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5 display-6" id="staticBackdropLabel">Complaint</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- {{data.complaint}} -->
+                    <img src="{{data.imageURL}}" alt="" width="500px"> 
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div></td>
+          <td>
+            {% if data.get_status_display == 'Pending' %}
+            
+            <span class="text-danger fw-bold">{{data.get_status_display}}</span> 
+            {% else %}
+            <span class="text-success fw-bold">{{data.get_status_display}}</span> 
+            
+            {% endif %}
+          </td>
+          <td><a href="{% url 'delete' data.id %}" class="text-dark"><i class="fa-solid fa-trash-can mt-2 ms-3"></i></a></td>
+          <td><a href="{% url 'update' data.id %}" class="text-dark"><i class="fa-solid fa-user-pen mt-2 ms-3"></i></a></td>
+        </tr> 
+        {% endfor %}
+
+      </tbody>    
+  </table>
+  
+  
+  
+  
+</div>
+
+
+{% endblock content %}
